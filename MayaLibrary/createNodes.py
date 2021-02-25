@@ -1,5 +1,5 @@
 import pymel.core as pm
-from scriptsInTools.MayaLibrary import getNameSplits as gns
+from ..MayaLibrary import getNameSplits as gns
 class CreateNode():
     def __init__(self, name = ''):
         self.name = name

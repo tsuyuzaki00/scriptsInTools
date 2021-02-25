@@ -1,5 +1,5 @@
 import maya.cmds as cmds
-from mainEdit import qt
+from ..MayaLibrary import qt
 from PySide2 import QtWidgets, QtCore, QtGui
 
 class MainWindow(QtWidgets.QMainWindow):
