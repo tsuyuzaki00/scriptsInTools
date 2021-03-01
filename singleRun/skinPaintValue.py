@@ -1,5 +1,5 @@
 import pymel.core as pm
-from scriptsInTools.mainEdit import qt
+from ..MayaLibrary import qt
 from PySide2 import QtGui, QtCore, QtWidgets
 
 class SkinValueWindow(QtWidgets.QWidget):
