@@ -1,3 +1,5 @@
+import pymel.core as pm
+
 objs = pm.selected()
 
 def select_center_pivot(objs):
@@ -64,3 +66,17 @@ def drivenRun():
         sdk.run()
 
 proxyAttrRun()
+
+#add_layer(layer_name="",add_obj=[]or"")
+def add_layer(self,layer_name,add_obj):
+    grp = pm.select(add_obj)
+    layer = pm.createDisplayLayer(n = layer_name)
+    pm.editDisplayLayerMembers(layer, grp)
+
+#add_grp(grp_name="",add_obj=[]or"")
+def add_grp(self,grp_name,add_obj):
+    new_grp = pm.createNode( 'transform', n = grp_name )
+    pm.parent(add_obj,new_grp)
+
+"left_, _left, Left_, _Left, lt_, _lt, Lt_, _Lt, lft_, _lft, Lft_, _Lft, Lf_, _Lf, lf_, _lf, l_, _l, L_, _L"
+"right_, _right, Right_, _Right, rt_, _rt, Rt_, _Rt, rgt_, _rgt, Rgt_, _Rgt, Rg_, _Rg, rg_, _rg, r_, _r, R_, _R"
