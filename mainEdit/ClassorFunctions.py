@@ -68,13 +68,17 @@ def drivenRun():
 proxyAttrRun()
 
 #add_layer(layer_name="",add_obj=[]or"")
-def add_layer(self,layer_name,add_obj):
-    grp = pm.select(add_obj)
-    layer = pm.createDisplayLayer(n = layer_name)
-    pm.editDisplayLayerMembers(layer, grp)
+def add_layer(layer_name,add_obj):
+    if pm.objExists(layer_name):
+        pm.editDisplayLayerMembers(layer_name, add_obj)
+        pm.setAttr(layer_name + ".displayType", 2)
+    else:
+        layer = pm.createDisplayLayer(n = layer_name)
+        pm.editDisplayLayerMembers(layer, add_obj)
+        pm.setAttr(layer + ".displayType", 2)
 
 #add_grp(grp_name="",add_obj=[]or"")
-def add_grp(self,grp_name,add_obj):
+def add_grp(grp_name,add_obj):
     new_grp = pm.createNode( 'transform', n = grp_name )
     pm.parent(add_obj,new_grp)
 
