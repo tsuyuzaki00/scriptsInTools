@@ -70,24 +70,26 @@ proxyAttrRun()
 #add_layer(layer_name="",add_obj=[]or"")
 def add_layer(layer_name,add_obj):
     if pm.objExists(layer_name):
-        pm.editDisplayLayerMembers(layer_name, add_obj)
+        pm.editDisplayLayerMembers(layer_name, add_obj, nr = True)
         pm.setAttr(layer_name + ".displayType", 2)
     else:
         layer = pm.createDisplayLayer(n = layer_name)
-        pm.editDisplayLayerMembers(layer, add_obj)
+        pm.editDisplayLayerMembers(layer, add_obj, nr = True)
         pm.setAttr(layer + ".displayType", 2)
 
-#add_grp(grp_name="",add_obj=[]or"")
-def add_grp(grp_name,add_obj):
-    new_grp = pm.createNode( 'transform', n = grp_name )
+#add_null(null_name="",add_obj=[]or"")
+def add_null(null_name,add_obj):
+    new_grp = pm.createNode( 'transform', n = null_name )
     pm.parent(add_obj,new_grp)
 
+#
 def camera_mask_color(cam,color=(0,0,0),opacity=1.0):
     pm.setAttr(cam + ".displayResolution", 1)
     pm.setAttr(cam + ".displayGateMask", 1)
     pm.setAttr(cam + ".displayGateMaskOpacity", opacity)
     pm.setAttr(cam + ".displayGateMaskColor", color, type = "double3")
 
+#
 def trans_rot_lock(obj,lock=True):
     pm.setAttr(obj + ".translateX", l = lock)
     pm.setAttr(obj + ".translateY", l = lock)
@@ -95,6 +97,18 @@ def trans_rot_lock(obj,lock=True):
     pm.setAttr(obj + ".rotateX", l = lock)
     pm.setAttr(obj + ".rotateY", l = lock)
     pm.setAttr(obj + ".rotateZ", l = lock)
+
+#
+def get_target_trnsRot(target,source,parent_back):
+    pm.parent(source,target)
+    pm.setAttr(source + ".translateX", 0)
+    pm.setAttr(source + ".translateY", 0)
+    pm.setAttr(source + ".translateZ", 0)
+    pm.setAttr(source + ".rotateX", 0)
+    pm.setAttr(source + ".rotateY", 0)
+    pm.setAttr(source + ".rotateZ", 0)
+    pm.parent(source,parent_back)
+
 
 "left_, _left, Left_, _Left, lt_, _lt, Lt_, _Lt, lft_, _lft, Lft_, _Lft, Lf_, _Lf, lf_, _lf, l_, _l, L_, _L"
 "right_, _right, Right_, _Right, rt_, _rt, Rt_, _Rt, rgt_, _rgt, Rgt_, _Rgt, Rg_, _Rg, rg_, _rg, r_, _r, R_, _R"
