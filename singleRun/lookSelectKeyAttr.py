@@ -1,4 +1,4 @@
-from mainEdit import qt
+from ..MayaLibrary import qt
 from PySide2 import QtWidgets, QtCore, QtGui
 import pymel.core as pm
 
@@ -16,13 +16,12 @@ def selectKeyAttr():
         pm.select(sel)
         selLists = pm.listAttr(k=True)
         for selList in selLists:
-            selAttr = pm.getAttr(sel + '.' + selList)
-            print "'" + sel + "', '" + selList + "', '" + str(round(selAttr, 3)) + "'"
-            widget.insertPlainText("'" + sel + "', '" + selList + "', '" + str(round(selAttr, 3)) + "'"+ "\n")
+            selAttr = pm.getAttr(sel + "." + selList)
+            widget.insertPlainText('"' + sel + '", "' + selList + '", "' + str(round(selAttr, 3)) + '"' + "\n")
         widget.insertPlainText("\n")
     layout.addWidget(widget)
 
-    button = QtWidgets.QPushButton('print',window)
+    button = QtWidgets.QPushButton("print",window)
     layout.addWidget(button)
 
     button.clicked.connect(main)
