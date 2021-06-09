@@ -17,7 +17,7 @@ def selectKeyAttr():
         selLists = pm.listAttr(k=True)
         for selList in selLists:
             selAttr = pm.getAttr(sel + "." + selList)
-            widget.insertPlainText('"' + sel + '", "' + selList + '", "' + str(round(selAttr, 3)) + '"' + "\n")
+            widget.insertPlainText('"' + sel + '", "' + selList + '", ' + str(round(selAttr, 3)) + "\n")
         widget.insertPlainText("\n")
     layout.addWidget(widget)
 
