@@ -1,6 +1,6 @@
 import os, json
 from PySide2 import QtWidgets, QtCore, QtGui
-from mainEdit import qt
+from ..MayaLibrary import qt
 import pymel.core as pm
 
 class OptionWidget(QtWidgets.QWidget):
