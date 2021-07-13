@@ -6,14 +6,13 @@ def main():
         matrixCreateConnect(sel)
 
 def matrixCreateConnect(sel):
-    selPart = sel.split('_')
+    sel_part = sel.split('_')
     #nameSetting
-    cnsName = pm.createNode('transform', n = 'cns_' + selPart[1] + '_' + selPart[-3] + '_' + selPart[-2] + '_' + selPart[-1])
-    cnsPart = cnsName.split('_')
-    trsMmxName = pm.createNode('multMatrix', n = 'mmx_' + selPart[1] + '_Trs' + '_' + cnsPart[0] + selPart[0] + '_' + selPart[-3] + '_' + selPart[-2] + '_' + selPart[-1])
-    rotMmxName = pm.createNode('multMatrix', n = 'mmx_' + selPart[1] + '_Rot' + '_' + cnsPart[0] + selPart[0] + '_' + selPart[-3] + '_' + selPart[-2] + '_' + selPart[-1])
-    trsDmxName = pm.createNode('decomposeMatrix', n = 'dmx_' + selPart[1] + '_Trs' + '_' + cnsPart[0] + selPart[0] + '_' + selPart[-3] + '_' + selPart[-2] + '_' + selPart[-1])
-    rotDmxName = pm.createNode('decomposeMatrix', n = 'dmx_' + selPart[1] + '_Rot' + '_' + cnsPart[0] + selPart[0] + '_' + selPart[-3] + '_' + selPart[-2] + '_' + selPart[-1])
+    cnsName = pm.createNode('transform', n = "_".join([sel_part[0],"ref",sel_part[2]]))
+    mumx_name_trs = pm.createNode('multMatrix', n = "_".join([sel_part[0],"mumx",sel_part[2],"trs"]))
+    mumx_name_rot = pm.createNode('multMatrix', n = "_".join([sel_part[0],"mumx",sel_part[2],"rot"]))
+    demx_name_trs = pm.createNode('decomposeMatrix', n = "_".join([sel_part[0],"demx",sel_part[2],"trs"]))
+    demx_name_rot = pm.createNode('decomposeMatrix', n = "_".join([sel_part[0],"demx",sel_part[2],"rot"]))
     
     #selGet>cns
     pm.parent(cnsName, sel)
@@ -22,15 +21,15 @@ def matrixCreateConnect(sel):
     pm.parent(cnsName , w = True)
     
     #connection
-    pm.connectAttr( cnsName + '.worldMatrix', trsMmxName + '.matrixIn[0]')
-    pm.connectAttr( trsMmxName + '.matrixSum', rotMmxName + '.matrixIn[0]')
-    pm.connectAttr( sel + '.parentInverseMatrix', trsMmxName + '.matrixIn[1]')
+    pm.connectAttr( cnsName + '.worldMatrix', mumx_name_trs + '.matrixIn[0]')
+    pm.connectAttr( mumx_name_trs + '.matrixSum', mumx_name_rot + '.matrixIn[0]')
+    pm.connectAttr( sel + '.parentInverseMatrix', mumx_name_trs + '.matrixIn[1]')
     getSelImx = pm.getAttr(sel + '.inverseMatrix')
-    pm.setAttr(rotMmxName + '.matrixIn[1]', getSelImx)
-    pm.connectAttr( trsMmxName + '.matrixSum', trsDmxName + '.inputMatrix')
-    pm.connectAttr( rotMmxName + '.matrixSum', rotDmxName + '.inputMatrix')
-    pm.connectAttr( trsDmxName + '.outputTranslate', sel + '.translate')
-    pm.connectAttr( trsDmxName + '.outputScale', sel + '.scale')
-    pm.connectAttr( rotDmxName + '.outputRotate', sel + '.rotate')
+    pm.setAttr(mumx_name_rot + '.matrixIn[1]', getSelImx)
+    pm.connectAttr( mumx_name_trs + '.matrixSum', demx_name_trs + '.inputMatrix')
+    pm.connectAttr( mumx_name_rot + '.matrixSum', demx_name_rot + '.inputMatrix')
+    pm.connectAttr( demx_name_trs + '.outputTranslate', sel + '.translate')
+    pm.connectAttr( demx_name_trs + '.outputScale', sel + '.scale')
+    pm.connectAttr( demx_name_rot + '.outputRotate', sel + '.rotate')
     
 main()
